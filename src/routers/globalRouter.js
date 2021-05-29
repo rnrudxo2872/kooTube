@@ -1,8 +1,10 @@
 import express from "express"
+import { Trending, Join, Login } from "../controllers/globalController";
 
 const globalRouter = express.Router();
 
-const RootFunc = (req,res) => res.send("global Home");
-globalRouter.get("/",RootFunc);
+globalRouter.get('/', Trending);
+globalRouter.get('/join',Join);
+globalRouter.get('/login',Login)
 
-export default RootFunc;
+export default globalRouter;
