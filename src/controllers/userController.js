@@ -13,3 +13,11 @@ export const userDetail = (req,res) =>{
 export const userLogout = (req,res) =>{
     res.send('userLogout');
 }
+
+export const Join = (req,res) =>{
+    res.send("join")
+}
+
+export const Login = (req,res) =>{
+    res.send("login")
+}
