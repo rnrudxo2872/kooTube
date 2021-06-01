@@ -1,6 +1,8 @@
 extends partials/base
 
 block content
+    if errorMsg
+        h3=errorMsg
     form(method="post")
         input(name="title" type="text" placeholder="Insert Title", required) 
         input(name="description" type="text" placeholder="Insert Description", required) 
