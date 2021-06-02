@@ -1,5 +1,5 @@
 import { VideoCreatError } from "../errors/errorHandle";
-import Video, { formatHastags } from "../models/Video"
+import Video from "../models/Video"
 
 export const home = async(req,res) =>{
     const videos = await Video.find({});
@@ -39,7 +39,7 @@ export const postVideoEdit = async(req,res) =>{
         await Video.findByIdAndUpdate(id,{
             title,
             description,
-            hashtags:formatHastags(hashtags)
+            hashtags:Video.formatHastags(hashtags)
         })
     return res.redirect(`/videos/${id}`);
 }
@@ -59,7 +59,7 @@ export const postUploadVideo = async(req, res) => {
         await Video.create({
             title,
             description,
-            hashtags:formatHastags(hashtags)
+            hashtags:Video.formatHastags(hashtags)
         })
         return res.redirect('/');
     }catch(err){

@@ -1,7 +1,5 @@
 import mongoose from "mongoose";
 
-export const formatHastags = (hashtags) => hashtags.split(',').map(item => item.startsWith("#") ? item : `#${item}`);
-
 const videoSchema = new mongoose.Schema({
     title: {type:String, required:true, trim:true, maxLength:80}, //= {type: String}
     description:{type:String, required:true, trim:true, minLength:20},
@@ -15,6 +13,10 @@ const videoSchema = new mongoose.Schema({
         rating:{type:Number, default:0, required:true}
     }
 });
+
+videoSchema.static('formatHastags',function(hashtags){
+    return hashtags.split(',').map(item => item.startsWith("#") ? item : `#${item}`);
+})
 
 const VideoModel = mongoose.model("Video", videoSchema);
 export default VideoModel;
