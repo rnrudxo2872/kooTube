@@ -3,7 +3,8 @@ import mongoose from "mongoose";
 //mongo db 설정  /[db이름]
 mongoose.connect("mongodb://127.0.0.1:27017/mytube", {
     useNewUrlParser: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
+    useFindAndModify: false
 })
 
 const db = mongoose.connection;

@@ -3,28 +3,45 @@ import Video from "../models/Video"
 
 export const home = async(req,res) =>{
     const videos = await Video.find({});
-    console.log(videos);
     res.render("home",{pageTitle : "Home", videos});
 }
 
-export const videoWatch = (req,res) =>{
+export const videoWatch = async(req,res) =>{
+
     const {id} = req.params;
-    return res.render('watch',{pageTitle: `Watching `})
+    const video = await Video.findById(id);
+    if(video)
+        return res.render('watch',{pageTitle: video.title, video})
+    
+    return res.render("404",{pageTitle:"Video not found"});
 }
 
 export const videoUpload = (req,res) =>{
     res.send("videoUpload");
 }
 
-export const getVideoEdit = (req,res) =>{
+export const getVideoEdit = async(req,res) =>{
     const {id} = req.params;
-    return res.render("editVideo",{pageTitle:`Editing `});
+    const video = await Video.findById(id);
+    if(video)
+        return res.render("editVideo",{pageTitle:`Editing ${video.title}`, video});
+    return res.render("404",{pageTitle:"Video not found"})
 }
 
-export const postVideoEdit = (req,res) =>{
+export const postVideoEdit = async(req,res) =>{
     const {id} = req.params;
-    const {title} = req.body;
-    res.redirect(`/videos/${id}`);
+    const {title, description, hashtags} = req.body;
+    const video = await Video.exists({_id:id});
+
+    if(!video)
+        return res.render("404",{pageTitle:"Not Found Page"});
+    
+        await Video.findByIdAndUpdate(id,{
+            title,
+            description,
+            hashtags
+        })
+    return res.redirect(`/videos/${id}`);
 }
 
 export const getUploadVideo = (req,res) =>{
@@ -42,12 +59,11 @@ export const postUploadVideo = async(req, res) => {
         await Video.create({
             title,
             description,
-            hashtags: hashtags.split(',').map(item => `#${item}`),
+            hashtags
         })
-
         return res.redirect('/');
-    
     }catch(err){
+        console.log(err);
         return res.render('uploadVideo',{pageTitle:"Upload Video",errorMsg:err._message})
     }
 
