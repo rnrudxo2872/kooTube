@@ -1,4 +1,6 @@
 import "./db"
+import "./models/User"
+import "./models/Video"
 import app from "./server"
 
 const PORT = 4000;
