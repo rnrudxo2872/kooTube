@@ -15,7 +15,8 @@ export const userDetail = (req,res) =>{
 }
 
 export const userLogout = (req,res) =>{
-    res.send('userLogout');
+    req.session.destroy();
+    return res.redirect("/")
 }
 
 export const getJoin = (req,res) =>{
@@ -57,7 +58,7 @@ export const getLogin = (req,res) =>{
 
 export const postLogin = async(req,res) =>{
     const {email, password} = req.body;
-    const user = await User.findOne({email});
+    const user = await User.findOne({email, socialOnly: false});
     if(!user){
         return res.status(400).render("login",{pageTitle:"Login", errorMessage:"아이디가 존재하지 않습니다!"});
     }
@@ -117,30 +118,31 @@ export const finishGithubLogin = async(req,res) =>{
 
         const emailData =await (await fetch(`${apiURL}/user/emails`,apiOption)).json();
         console.log(emailData);
-
+        
         const emailObj = emailData.find(email => email.primary === true && email.verified === true)
         
-        const existingUser = await User.findOne({email: emailObj.email});
-        if(existingUser){
+        if(emailObj){
+            const existingUser = await User.findOne({email: emailObj.email});
+            if(!existingUser){
+                await User.create({
+                    email:emailObj.email,
+                    socialOnly:true,
+                    avatarURL:userData.avatar_url,
+                    username:userData.login,
+                    password:"",
+                    name:userData.name,
+                    location:userData.location,
+                })
+            }
+
             req.session.loggedIn =true;
             req.session.user = existingUser;
             return res.redirect("/")
-
-        }else{
-            await User.create({
-                email:emailObj.email,
-                socailLogin:true,
-                username:userData.login,
-                password:"",
-                name:userData.name,
-                location:userData.location,
-            })
-        }
-        if(!emailObj){
-            return res.redirect("/login")
+            
         }else{
             return res.redirect("/login")
         }
+        
     }else{
         return res.redirect("/login");
     }
