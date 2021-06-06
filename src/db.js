@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 //mongo db 설정  /[db이름]
-mongoose.connect("mongodb://127.0.0.1:27017/mytube", {
+mongoose.connect(process.env.DB_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: false,
