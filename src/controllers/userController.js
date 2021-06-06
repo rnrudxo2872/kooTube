@@ -1,5 +1,6 @@
 import User from "../models/User";
 import bcrypt from "bcrypt"
+import fetch from "node-fetch"
 
 export const userDelete = (req,res) => {
     res.render("");
@@ -72,4 +73,75 @@ export const postLogin = async(req,res) =>{
     req.session.user = user;
     console.log("User Login : ", user.email);
     res.redirect("/");
+}
+
+export const startGithubLogin = (req,res) =>{
+    const baseURL = "https://github.com/login/oauth/authorize";
+    const config = {
+        client_id:"613be12976c2ec72c663",
+        scope:"read:user user:email"
+    }
+    const finURL = `${baseURL}?${new URLSearchParams(config).toString()}`;
+    return res.redirect(finURL);
+}
+
+export const finishGithubLogin = async(req,res) =>{
+    const baseURL = "https://github.com/login/oauth/access_token";
+
+    const config = {
+        client_id: process.env.GITHUB_CILENT,
+        client_secret: process.env.GITHUB_SECRET,
+        code: req.query.code
+    }
+    const finURL = `${baseURL}?${new URLSearchParams(config).toString()}`
+    const fetchOption = {
+        method:"POST",
+        headers:{
+            Accept:"application/json"
+        }
+    }
+    const json = await (await fetch(finURL,fetchOption)).json();
+    
+    if("access_token" in json){
+        const{access_token} = json;
+        const apiURL = "https://api.github.com";
+        const apiOption = {
+            headers:{
+                method:"GET",
+                Authorization:`token ${access_token}` 
+            }
+        }
+
+        const userData = await (await fetch(`${apiURL}/user`,apiOption)).json();
+        console.log(userData);
+
+        const emailData =await (await fetch(`${apiURL}/user/emails`,apiOption)).json();
+        console.log(emailData);
+
+        const emailObj = emailData.find(email => email.primary === true && email.verified === true)
+        
+        const existingUser = await User.findOne({email: emailObj.email});
+        if(existingUser){
+            req.session.loggedIn =true;
+            req.session.user = existingUser;
+            return res.redirect("/")
+
+        }else{
+            await User.create({
+                email:emailObj.email,
+                socailLogin:true,
+                username:userData.login,
+                password:"",
+                name:userData.name,
+                location:userData.location,
+            })
+        }
+        if(!emailObj){
+            return res.redirect("/login")
+        }else{
+            return res.redirect("/login")
+        }
+    }else{
+        return res.redirect("/login");
+    }
 }
