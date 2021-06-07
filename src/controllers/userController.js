@@ -10,8 +10,46 @@ export const getUserEdit = async(req,res) =>{
     console.log(req.locals,res.locals);
     return res.render("edit-profile",{pageTitle:"Edit Profile"})
 }
-export const postUserEdit = (req,res) =>{
-    res.send('userEdit')
+export const postUserEdit = async (req, res) => {
+    const {
+        session: {
+            user: {
+                _id
+            }
+        },
+        body: {
+            email,
+            username,
+            name,
+            location
+        }
+    } = req;
+    
+    const prevUser = req.session.user;
+
+    //변경되는 유저 데이터 상태들.
+    let changeState = [];
+    prevUser.email !== email ? changeState.push({email}):false;
+    prevUser.username !== username ? changeState.push({username}):false;
+    
+    if(changeState.length > 0){
+        const exists = await User.exists({$or: changeState.map(state => state)})
+        if(exists) {
+            return res.status(400).render("edit-profile",{pageTitle:"Edit Profile", errorMessage:"변경할 값이 이미 존재합니다!"})
+        }
+    }
+
+    //new:true 옵션으로 업데이트한 데이터 반환
+    const updateUser = await User.findByIdAndUpdate(_id, {
+        email,
+        username,
+        name,
+        location
+    },{new:true});
+
+    req.session.user = updateUser;
+
+    res.redirect('/users/edit')
 }
 
 export const userDetail = (req,res) =>{

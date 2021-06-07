@@ -7,12 +7,13 @@ import {
     postUploadVideo,
     deleteVideo
 } from "../controllers/videoController";
+import { protectorMiddleware } from "../middlewares";
 
 const videoRouter = express.Router();
 
 videoRouter.get('/:id([0-9a-f]{24})', videoWatch);
-videoRouter.route('/:id([0-9a-f]{24})/edit').get(getVideoEdit).post(postVideoEdit);
-videoRouter.get('/:id([0-9a-f]{24})/delete',deleteVideo)
-videoRouter.route('/upload').get(getUploadVideo).post(postUploadVideo);
+videoRouter.route('/:id([0-9a-f]{24})/edit').all(protectorMiddleware).get(getVideoEdit).post(postVideoEdit);
+videoRouter.get('/:id([0-9a-f]{24})/delete',deleteVideo).all(protectorMiddleware)
+videoRouter.route('/upload').all(protectorMiddleware).get(getUploadVideo).post(postUploadVideo);
 
 export default videoRouter;
