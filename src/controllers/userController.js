@@ -6,7 +6,11 @@ export const userDelete = (req,res) => {
     res.render("");
 }
 
-export const userEdit = (req,res) =>{
+export const getUserEdit = async(req,res) =>{
+    console.log(req.locals,res.locals);
+    return res.render("edit-profile",{pageTitle:"Edit Profile"})
+}
+export const postUserEdit = (req,res) =>{
     res.send('userEdit')
 }
 
