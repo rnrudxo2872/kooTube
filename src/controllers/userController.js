@@ -55,8 +55,14 @@ export const postUserEdit = async (req, res) => {
     res.redirect('/users/edit')
 }
 
-export const userDetail = (req,res) =>{
-    res.send('userDetail');
+export const userDetail = async(req,res) =>{
+    const {id} = req.params;
+    const user = await User.findById(id);
+
+    if(!user){
+        return res.status(404).render("404", {pageTitle:"해당 유저를 찾지 못했습니다!"});
+    }
+    return res.render("users/profile",{pageTitle:user.name, user});
 }
 
 export const userLogout = (req,res) =>{
