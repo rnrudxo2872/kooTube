@@ -30,6 +30,7 @@ app.use(session({
     store:MongoStore.create({mongoUrl:process.env.DB_URL})
 }))
 app.use(express.static(__dirname + '/public'));
+app.use("/upload",express.static("upload"))
 
 app.use(localsMiddleware);
 app.use('/', rootRouter);

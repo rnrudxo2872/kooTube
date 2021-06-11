@@ -14,7 +14,8 @@ export const postUserEdit = async (req, res) => {
     const {
         session: {
             user: {
-                _id
+                _id,
+                avatarURL
             }
         },
         body: {
@@ -22,7 +23,8 @@ export const postUserEdit = async (req, res) => {
             username,
             name,
             location
-        }
+        },
+        file
     } = req;
     
     const prevUser = req.session.user;
@@ -31,7 +33,7 @@ export const postUserEdit = async (req, res) => {
     let changeState = [];
     prevUser.email !== email ? changeState.push({email}):false;
     prevUser.username !== username ? changeState.push({username}):false;
-    
+
     if(changeState.length > 0){
         const exists = await User.exists({$or: changeState.map(state => state)})
         if(exists) {
@@ -41,6 +43,7 @@ export const postUserEdit = async (req, res) => {
 
     //new:true 옵션으로 업데이트한 데이터 반환
     const updateUser = await User.findByIdAndUpdate(_id, {
+        avatarURL:file ? file.path : avatarURL,
         email,
         username,
         name,

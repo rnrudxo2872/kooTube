@@ -1,3 +1,5 @@
+import multer from "multer";
+
 export const localsMiddleware = (req, res, next) =>{
     console.log(req.session);
 
@@ -18,3 +20,5 @@ export const publicOnlyMiddleware = (req,res,next) =>{
         return next();
     return res.redirect("/")
 }
+
+export const uploadFiles = multer({dest:"upload/"})
