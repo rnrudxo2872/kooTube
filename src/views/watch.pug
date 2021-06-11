@@ -2,6 +2,7 @@ extends partials/base.pug
 include mixins/video
 
 block content
+    video(src=`/${video.fileURL}`, controls) 
     p=video.description
     small=video.createdAt
     a(href=`${video.id}/edit`) Edit Video &rarr;

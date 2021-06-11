@@ -55,10 +55,14 @@ export const postUploadVideo = async(req, res) => {
         hashtags
     } = req.body;
 
+    //ES6 문법, req.file.path의 변수명을 fileURL로 한다.
+    const {path:fileURL} = req.file;
+
     try{
         await Video.create({
             title,
             description,
+            fileURL,
             hashtags:Video.formatHastags(hashtags)
         })
         return res.redirect('/');
