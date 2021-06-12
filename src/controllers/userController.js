@@ -58,16 +58,15 @@ export const postUserEdit = async (req, res) => {
 
 export const userDetail = async(req,res) =>{
     const {id} = req.params;
-    const user = await User.findById(id);
+    const user = await User.findById(id).populate("videos");
+    
+    console.log(user);
 
     if(!user){
         return res.status(404).render("404", {pageTitle:"해당 유저를 찾지 못했습니다!"});
     }
 
-    const videos = await Video.find({owner:user.id})
-    console.log(videos);
-
-    return res.render("users/profile",{pageTitle:user.name, user, videos});
+    return res.render("users/profile",{pageTitle:user.name, user});
 }
 
 export const userLogout = (req,res) =>{
