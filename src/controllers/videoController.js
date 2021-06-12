@@ -1,5 +1,6 @@
 import { VideoCreatError } from "../errors/errorHandle";
 import Video from "../models/Video"
+import User from "../models/User";
 
 export const home = async(req,res) =>{
     const videos = await Video.find({}).sort({createdAt:-1});
@@ -10,8 +11,10 @@ export const videoWatch = async(req,res) =>{
 
     const {id} = req.params;
     const video = await Video.findById(id);
+    const owner = await User.findById(video.owner)
+
     if(video)
-        return res.render('watch',{pageTitle: video.title, video})
+        return res.render('watch',{pageTitle: video.title, video, owner})
     
     return res.render("404",{pageTitle:"Video not found"});
 }
@@ -50,19 +53,30 @@ export const getUploadVideo = (req,res) =>{
 
 export const postUploadVideo = async(req, res) => {
     const {
-        title,
-        description,
-        hashtags
-    } = req.body;
+        body:{
+            title,
+            description,
+            hashtags
+        },
+        file:{
+            //ES6 문법, req.file.path의 변수명을 fileURL로 한다.
+            path:fileURL
+        },
+        session:{
+            user:{
+                _id
+            }
+        }
+    } = req;
 
-    //ES6 문법, req.file.path의 변수명을 fileURL로 한다.
-    const {path:fileURL} = req.file;
+    console.log(req.session);
 
     try{
         await Video.create({
             title,
             description,
             fileURL,
+            owner:_id,
             hashtags:Video.formatHastags(hashtags)
         })
         return res.redirect('/');

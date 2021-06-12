@@ -175,7 +175,7 @@ export const finishGithubLogin = async(req,res) =>{
         if(emailObj){
             const existingUser = await User.findOne({email: emailObj.email});
             if(!existingUser){
-                await User.create({
+                const user = await User.create({
                     email:emailObj.email,
                     socialOnly:true,
                     avatarURL:userData.avatar_url,
@@ -184,6 +184,10 @@ export const finishGithubLogin = async(req,res) =>{
                     name:userData.name,
                     location:userData.location,
                 })
+
+                req.session.loggedIn =true;
+                req.session.user = user;
+                return res.redirect("/")
             }
 
             req.session.loggedIn =true;
