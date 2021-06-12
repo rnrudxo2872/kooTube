@@ -1,4 +1,8 @@
 extends ../partials/base
+include ../mixins/video
 
 block content
-    h1 하이
+    each video in videos
+        +video(video)
+    else 
+        h2 비디오가 없습니다.

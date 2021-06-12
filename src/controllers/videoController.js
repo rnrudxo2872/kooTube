@@ -12,8 +12,6 @@ export const videoWatch = async(req,res) =>{
     const {id} = req.params;
     const video = await Video.findById(id).populate("owner");
 
-console.log(video);
-
     if(video)
         return res.render('watch',{pageTitle: video.title, video})
     
