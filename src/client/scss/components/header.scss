@@ -9,6 +9,7 @@ header {
     }
     ul{
         display: flex;
+        align-items: center;
         li{
             &:not(:first-child){
                 margin-left: 25px;
@@ -25,5 +26,10 @@ header {
         color:$bg;
         padding: 5px 10px;
         border-radius: 4px;
+    }
+    .header__avatar{
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
     }
 }

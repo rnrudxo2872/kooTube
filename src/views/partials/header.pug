@@ -12,11 +12,15 @@ header
                 li 
                     a(href="/videos/upload") 비디오 업로드
                 li
-                    a(href=`/users/${loggedInUser._id}`) 마이페이지
-                li
                     a(href="/users/edit") 정보 수정
                 li
                     a(href="/users/logout") 로그아웃
+                li
+                    a(href=`/users/${loggedInUser._id}`)
+                        if loggedInUser.avatarURL === ""
+                            span 🙄
+                        else
+                            img.header__avatar(src=`/${loggedInUser.avatarURL}`, alt="My Profile")
             else
                 li
                     a(href="/join").header__btn 회원가입 
