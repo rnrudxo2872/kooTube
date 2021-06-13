@@ -1,4 +1,18 @@
-@import "./_variable";
+@import "./config/_reset";
+@import "./config/_variable";
+
+@import "./components/header";
+@import "./components/footer";
+@import "./components/video";
+@import "./components/shared";
+@import "./components/forms";
+@import "./components/social-login";
+
+@import "./screens/home";
+@import "./screens/search";
+@import "./screens/profile";
+@import "./screens/edit-profile";
+
 @import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
 
 *{
@@ -7,6 +21,12 @@
 
 body{
     background-color: $bg;
-    color: $color;
-    
+    color: whitesmoke;
+}
+
+main{
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+    margin-top: 50px;
 }

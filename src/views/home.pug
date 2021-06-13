@@ -2,8 +2,8 @@ extends partials/base
 include mixins/video
 
 block content
-    ul
+    div.home__videos
         each item in videos
             +video(item)
         else 
-            h2 비디오가 존재하지 않습니다.
+            span.empty__message 비디오가 존재하지 않습니다.

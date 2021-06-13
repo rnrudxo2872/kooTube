@@ -1,6 +1,24 @@
-head
-    title #{pageTitle} | #{siteName}
-    link(rel="stylesheet", href="https://unpkg.com/mvp.css")
-    link(rel="stylesheet", href="/static/css/style.css")
-    link(rel="shortcut icon", href="logo/favicon_C.ico", type="image/x-icon")
-    link(rel="icon" href="logo/favicon_C.ico")
+header
+    a(href="/").header__logo
+        i.fab.fa-youtube
+    nav
+        ul
+            li
+                a(href="/search")
+                    i.fas.fa-search
+            li 
+                a(href="/").header__btn Home
+            if loggedIn
+                li 
+                    a(href="/videos/upload") 비디오 업로드
+                li
+                    a(href=`/users/${loggedInUser._id}`) 마이페이지
+                li
+                    a(href="/users/edit") 정보 수정
+                li
+                    a(href="/users/logout") 로그아웃
+            else
+                li
+                    a(href="/join").header__btn 회원가입 
+                li
+                    a(href="/login").header__btn 로그인

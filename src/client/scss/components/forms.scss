@@ -1,0 +1,29 @@
+form{
+    max-width: 420px;
+    margin:0 auto;
+    padding: 20px;
+    background-color: rgba($color: #5e5e5e, $alpha: 0.2);
+    border-radius: 7px;
+}
+
+input{
+    all:unset;
+    padding:5px 20px;
+    border-radius: 6px;
+    border:3px dashed rgb(151, 150, 150);
+    font-size: 16px;
+    margin-bottom: 10px;
+    width: 90%;
+    &::placeholder{
+        color:rgb(230, 230, 230)
+    }
+}
+
+input[type="submit"],
+.social-login{
+    padding: 12px 20px;
+    background-color: rgb(235, 142, 126);
+    text-align: center;
+    cursor: pointer;
+    display: block;
+}

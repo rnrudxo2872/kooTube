@@ -3,7 +3,7 @@ import Video from "../models/Video"
 import User from "../models/User";
 
 export const home = async(req,res) =>{
-    const videos = await Video.find({}).sort({createdAt:-1});
+    const videos = await Video.find({}).sort({createdAt:-1}).populate("owner");
     res.render("home",{pageTitle : "Home", videos});
 }
 
@@ -156,8 +156,7 @@ export const search = async(req,res) => {
                 //i => 대소문자 구분X
                 $regex: new RegExp(keyword, "i")
             }
-        })
-        console.log(videos); 
+        }).populate("owner")
     }
     return res.render("search",{pageTitle:"Search", videos})
 }
