@@ -31,6 +31,7 @@ app.use(session({
 }))
 app.use(express.static(__dirname + '/public'));
 app.use("/upload",express.static("upload"))
+app.use("/static",express.static("assets"))
 
 app.use(localsMiddleware);
 app.use('/', rootRouter);
