@@ -5,9 +5,12 @@ block content
     video(src=`/${video.fileURL}`, controls) 
     div
         button#play Play
-        butotn#mute Mute 
-        span#time 00:00/00:00
+        button#mute Mute 
         input#volume(type="range",step="0.1",value="0.5",min="0",max="1")
+        div
+            span#currentTime 00:00
+            span  / 
+            span#totalTime 00:00
     //-
         div
             p=video.description
