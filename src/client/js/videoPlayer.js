@@ -39,12 +39,18 @@ const handleVolumeChange = (event) =>{
     video.volume = Number(localStorage.getItem(MEMO_VOLUME));
 }
 
+const formatTime = (seconds, size) => new Date(seconds * 1000).toISOString().substr(size,8 - (size- 11));
+
 const handleLoadedMetadata = () =>{
-    totalTime.innerText = Math.floor(video.duration);
+    const totalSec = Math.floor(video.duration);
+    const size = totalSec < 3600 ? (totalSec < 60 ? 15 : 14) : 11;
+
+    totalTime.innerText = formatTime(Math.floor(video.duration),size);
+    currentTime.innerText = formatTime(Math.floor(video.currentTime),size);
 }
 
 const handleTimeUpdate = () => {
-    currentTime.innerText = Math.floor(video.currentTime);
+    currentTime.innerText = formatTime(Math.floor(video.currentTime),(11+(8 - totalTime.innerText.length)));
 }
 
 playBtn.addEventListener("click",handlePlayClick);
