@@ -2,7 +2,7 @@ extends partials/base.pug
 include mixins/video
 
 block content
-    video(src=`/${video.fileURL}`, controls) 
+    video(src=`/${video.fileURL}`) 
     div
         button#play Play
         button#mute Mute 
@@ -11,6 +11,8 @@ block content
             span#currentTime 00:00
             span  / 
             span#totalTime 00:00
+        div
+            input#timeline(type="range",step="1",value="0",min="0")
     //-
         div
             p=video.description
