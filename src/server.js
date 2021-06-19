@@ -38,6 +38,6 @@ app.use(localsMiddleware);
 app.use('/', rootRouter);
 app.use('/videos', videoRouter);
 app.use('/users', userRouter);
-app.user('/api',apiRouter);
+app.use('/api',apiRouter);
 
 export default app;
