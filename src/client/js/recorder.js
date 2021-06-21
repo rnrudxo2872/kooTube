@@ -1,17 +1,27 @@
+import { createFFmpeg, fetchFile } from "@ffmpeg/ffmpeg";
+
 const startBtn = document.querySelector("#startBtn");
 const video = document.querySelector("#preview");
 
-const handleDownload = () =>{
+
+let stream;
+let recorder;
+let videoFile
+
+const handleDownload = async() =>{
+    const ffmpeg = createFFmpeg({log:true});
+    await ffmpeg.load();
+
+    ffmpeg.FS("writeFile","recording.webm", await fetchFile(videoFile));
+
+    await ffmpeg.run("-i","recording.webm","-r","60","output.mp4");
+
     const a = document.createElement("a");
     a.href = videoFile;
     a.download = "MyRecording.webm";
     document.body.appendChild(a);
     a.click();
 }
-
-let stream;
-let recorder;
-let videoFile
 
 const handleStop = () => {
     startBtn.innerText = "Download Recordeing";
