@@ -58,17 +58,10 @@ const handleDownload = async() =>{
     actionBtn.addEventListener("click",handleStart);
 }
 
-const handleStop = () => {
-    actionBtn.innerText = "Download Recordeing";
-    actionBtn.addEventListener("click",handleDownload);
-    actionBtn.removeEventListener("click",handleStop);
-    recorder.stop();
-}
-
 const handleStart = () =>{
-    actionBtn.innerText = "Stop recording"
+    actionBtn.innerText = "녹화중..."
+    actionBtn.disabled = true;
     actionBtn.removeEventListener("click",handleStart);
-    actionBtn.addEventListener("click",handleStop);
 
     recorder = new MediaRecorder(stream, { mimeType: "video/webm" });
     recorder.ondataavailable  = (event) => {
@@ -78,15 +71,21 @@ const handleStart = () =>{
         video.srcObject = null;
         video.src = videoFile;
         video.play();
+        actionBtn.innerText = "다운로드";
+        actionBtn.disabled = false;
+        actionBtn.addEventListener("click", handleDownload);
         video.loop = true;
     }
     recorder.start();
+    setTimeout(() => {
+        recorder.stop();
+    }, 5000)
 }
 
 const init = async() =>{
     stream = await navigator.mediaDevices.getUserMedia({
         audio:false,
-        video:{width:200,height:100},
+        video:{width:1024,height:576},
     });
     console.log(stream);
 

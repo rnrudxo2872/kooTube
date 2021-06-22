@@ -1,4 +1,3 @@
-import { VideoCreatError } from "../errors/errorHandle";
 import Video from "../models/Video"
 import User from "../models/User";
 
@@ -16,10 +15,6 @@ export const videoWatch = async(req,res) =>{
         return res.render('watch',{pageTitle: video.title, video})
     
     return res.render("404",{pageTitle:"Video not found"});
-}
-
-export const videoUpload = (req,res) =>{
-    res.send("videoUpload");
 }
 
 export const getVideoEdit = async(req,res) =>{
@@ -88,9 +83,9 @@ export const postUploadVideo = async(req, res) => {
             description,
             hashtags
         },
-        file:{
-            //ES6 문법, req.file.path의 변수명을 fileURL로 한다.
-            path:fileURL
+        files:{
+            video,
+            thumb
         },
         session:{
             user:{
@@ -98,12 +93,14 @@ export const postUploadVideo = async(req, res) => {
             }
         }
     } = req;
-
+    console.log(video,thumb);
+    console.log("====================================");
     try{
         const newVideo = await Video.create({
             title,
             description,
-            fileURL,
+            fileURL:video[0].path,
+            thumbURL:thumb[0].destination+thumb[0].filename,
             owner:_id,
             hashtags:Video.formatHastags(hashtags)
         })

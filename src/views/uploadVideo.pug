@@ -1,9 +1,10 @@
 extends partials/base
 
 block content
-    div 
-        video#preview
-        button#actionBtn start recorder
+    div.upload__container
+        div.upload__video
+            video#preview
+            button#actionBtn.social__btn 녹화하기
     if errorMsg
         h3=errorMsg
     form(method="post", enctype="multipart/form-data")

@@ -6,7 +6,8 @@ form{
     border-radius: 7px;
 }
 
-input:not(input[type="range"]){
+input:not(input[type="range"]),
+input:not(input[type="submit"]){
     all:unset;
     padding:5px 20px;
     border-radius: 6px;
@@ -20,10 +21,20 @@ input:not(input[type="range"]){
 }
 
 input[type="submit"],
-.social-login{
+.social-login,
+.social__btn{
     padding: 12px 20px;
-    background-color: rgb(235, 142, 126);
-    text-align: center;
+    background-color: rgb(199, 159, 152);
+    color: rgba($color: rgb(228, 204, 200), $alpha: 1.0) !important;
+    text-align: center !important;
     cursor: pointer;
     display: block;
+    border: none;
+    &:focus{
+        outline: none;
+    }
+    &:disabled{
+        opacity: 0.5;
+        pointer-events: none;
+    }
 }
