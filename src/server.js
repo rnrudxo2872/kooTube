@@ -7,6 +7,7 @@ import userRouter from "./routers/userRouter"
 import videoRouter from "./routers/videoRouter"
 import { localsMiddleware } from "./middlewares";
 import apiRouter from "./routers/apiRouter";
+import flash from "express-flash";
 
 console.log(process.env.COOKIE_SECRET);
 const app = express();
@@ -19,6 +20,7 @@ app.set('view engine','pug')
 app.set('x-powered-by',false);
 
 //morgan next() 포함
+app.use(flash());
 app.use(logger);
 app.use(express.urlencoded({extended:true}))
 app.use(session({

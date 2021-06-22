@@ -32,8 +32,10 @@ export const getVideoEdit = async(req,res) =>{
     const video = await Video.findById(id);
 
     //Forbidden
-    if(String(video.owner) !== String(_id))
+    if(String(video.owner) !== String(_id)){
+        req.flash("error","권한이 없습니다!");
         return res.status(403).redirect("/");
+    }
     if(video)
         return res.render("editVideo",{pageTitle:`Editing ${video.title}`, video});
     return res.status(404).render("404",{pageTitle:"Video not found"})
@@ -136,8 +138,10 @@ export const deleteVideo = async(req,res) =>{
         return res.status(404).render("404",{pageTitle:"Not Found Page"});
 
     //Forbidden
-    if(String(video.owner) !== String(_id))
+    if(String(video.owner) !== String(_id)){
+        req.flash("error","잘못된 권한입니다!");
         return res.status(403).redirect("/");
+    }
 
     await Video.findByIdAndDelete(id);
     return res.redirect("/");
