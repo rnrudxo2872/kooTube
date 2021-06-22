@@ -76,8 +76,9 @@ export const userDetail = async(req,res) =>{
 }
 
 export const userLogout = (req,res) =>{
-    req.session.destroy();
     req.flash("info","즐거운 하루 되세요!");
+    req.session.loggedIn =false;
+    req.session.user = {};
     return res.redirect("/")
 }
 
@@ -135,6 +136,8 @@ export const postLogin = async(req,res) =>{
     req.session.loggedIn =true;
     req.session.user = user;
     console.log("User Login : ", user.email);
+
+    req.flash("success","로그인 성공!")
     res.redirect("/");
 }
 
@@ -203,6 +206,8 @@ export const finishGithubLogin = async(req,res) =>{
 
             req.session.loggedIn =true;
             req.session.user = existingUser;
+
+            req.flash("success","로그인 성공!")
             return res.redirect("/")
             
         }else{
