@@ -9,7 +9,8 @@ const UserSchema = new mongoose.Schema({
     password:{type:String},
     name:{type:String, requried:true},
     location:String,
-    videos:[{type:mongoose.Schema.Types.ObjectId, ref:"Video"}]
+    videos:[{type:mongoose.Schema.Types.ObjectId, ref:"Video"}],
+    comments:[{type:mongoose.Schema.Types.ObjectId, ref:"Comment"}]
 })
 
 UserSchema.pre('save',async function(){
