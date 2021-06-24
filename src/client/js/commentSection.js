@@ -24,6 +24,7 @@ const handleSubmit = async(event) => {
         })
     }
     await fetch(`/api/videos/${video}/comment`,option);
+    textarea.value = '';
 }
 
 if(form){
