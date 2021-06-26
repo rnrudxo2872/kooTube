@@ -3,6 +3,10 @@ import Video from "../models/Video";
 import bcrypt from "bcrypt"
 import fetch from "node-fetch"
 
+export const userDelete = (req,res) => {
+    res.render("");
+}
+
 export const getUserEdit = async(req,res) =>{
     console.log(req.locals,res.locals);
     return res.render("edit-profile",{pageTitle:"Edit Profile"})
