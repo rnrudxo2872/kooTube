@@ -9,7 +9,6 @@ import { localsMiddleware } from "./middlewares";
 import apiRouter from "./routers/apiRouter";
 import flash from "express-flash";
 
-console.log(process.env.COOKIE_SECRET);
 const app = express();
 const logger = morgan("dev");
 
