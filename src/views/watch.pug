@@ -37,17 +37,17 @@ block content
                 textarea(cols="30", rows="10" placeholder="한마디 쓰기")
                 button 댓글쓰기
     div.video__comments
-        ul 
+        ul#commentsContainer
             each comment in video.comments.reverse()
                 if String(comment.owner) === String(loggedInUser._id)
-                    li.video__comment(data-id=comment.id)
+                    li#video__comment.video__comment(data-id=comment.id)
                         i.fas.fa-comment
-                        span=comment.text
-                        span ❌
+                        span#commentContent=comment.text
+                        span#delCommentBtn ❌
                 else
-                    li.video__comment(data-id)
+                    li#video__comment.video__comment
                         i.fas.fa-comment
-                        span=comment.text
+                        span#commentContent=comment.text
 
 block scripts
     script(src="/static/js/videoPlayer.js") 

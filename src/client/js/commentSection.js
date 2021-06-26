@@ -1,6 +1,7 @@
 
 const videoContainer = document.getElementById("videoContainer")
 const form = document.getElementById("commentForm");
+const delCommentBtn = document.querySelectorAll("#delCommentBtn");
 
 const addComment = (text, id) => {
     const videoComments = document.querySelector(".video__comments ul");
@@ -25,8 +26,6 @@ const addComment = (text, id) => {
 const handleSubmit = async(event) => {
     event.preventDefault();
     const textarea = form.querySelector("textarea");
-    console.log(textarea.value);
-    console.log(videoContainer.dataset);
 
     const text = textarea.value;
     const video = videoContainer.dataset.id;
@@ -42,15 +41,57 @@ const handleSubmit = async(event) => {
             text
         })
     }
-    const status = await (await fetch(`/api/videos/${video}/comment`,option));
+    const reponse = await (await fetch(`/api/videos/${video}/comment`,option));
     textarea.value = '';
     
-    if(status.status === 201){
-        const {newCommentId} = await status.json();
+    if(reponse.status === 201){
+        const {newCommentId} = await reponse.json();
         addComment(text, newCommentId);
     }
 }
 
+const handleCommentDel = async(commentId) => {
+    console.log(commentId);
+    const video = videoContainer.dataset.id;
+
+    const option = {
+        method:"DELETE",
+        headers:{
+            "Content-Type":"application/json",
+        },
+        body:JSON.stringify({
+            commentId
+        })
+    }
+
+    const response = await (await fetch(`/api/videos/${video}/comment`,option));
+    console.log(response)
+    if(response.status === 202){
+        return true;
+    }
+    return false;
+}
+
+const handleDelBtn = async(event) => {
+    console.log(event.target);
+    if(event.target.id !== 'delCommentBtn')
+        return;
+
+    const $Node = event.target.closest("#delCommentBtn").parentNode;
+    
+    const res = await handleCommentDel($Node.dataset.id);
+    console.log(res);
+    if(res){
+        $Node.remove();
+        return;
+    }
+    alert("잘못된 입력값입니다.");
+}
+
 if(form){
-    form.addEventListener("submit",handleSubmit)
+    form.addEventListener("submit",handleSubmit);
+}
+console.log(delCommentBtn)
+if(delCommentBtn.length > 0){
+    document.querySelector("#commentsContainer").addEventListener("click", handleDelBtn)
 }

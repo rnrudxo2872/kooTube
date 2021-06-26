@@ -12,7 +12,7 @@ export const videoWatch = async(req,res) =>{
     const {id} = req.params;
     const video = await Video.findById(id).populate("owner").populate("comments");
     console.log(video);
-    
+
     if(video)
         return res.render('watch',{pageTitle: video.title, video})
     
@@ -203,4 +203,39 @@ export const createComment = async(req,res) =>{
     video.save();
 
     return res.status(201).json({newCommentId:comment._id});
+}
+
+export const deleteComment = async(req,res) => {
+    const {
+        params:{
+            id
+        },
+        body:{
+            commentId
+        },
+        session:{
+            user:{
+                _id
+            }
+        }
+    } = req;
+
+    const video = await Video.findById(id);
+    
+    if(!video){
+        return res.sendStatus(404);
+    }
+
+    const comment = await Comment.findById(commentId);
+    
+    if(!comment){
+        return res.sendStatus(404);
+    }
+
+    if(String(_id) !== String(comment.owner)){
+        return res.sendStatus(400);
+    }
+
+    await Comment.findByIdAndRemove(commentId);
+    return res.sendStatus(202);
 }
