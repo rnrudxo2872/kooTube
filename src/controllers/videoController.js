@@ -12,7 +12,7 @@ export const videoWatch = async(req,res) =>{
     const {id} = req.params;
     const video = await Video.findById(id).populate("owner").populate("comments");
     console.log(video);
-
+    
     if(video)
         return res.render('watch',{pageTitle: video.title, video})
     
@@ -202,5 +202,5 @@ export const createComment = async(req,res) =>{
     video.comments.push(comment._id)
     video.save();
 
-    return res.sendStatus(201);
+    return res.status(201).json({newCommentId:comment._id});
 }
