@@ -13,6 +13,7 @@ const addComment = (text, id) => {
     icon.className = 'fas fa-comment';
     span.innerText = text;
     delBtn.innerText = "❌";
+    delBtn.id = "delCommentBtn";
     
     newComment.appendChild(icon);
     newComment.appendChild(span);
