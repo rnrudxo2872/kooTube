@@ -5,6 +5,6 @@ import "./models/User"
 import "./models/Video"
 import app from "./server"
 
-const PORT = 4000;
+const PORT = process.env.SERVER_PORT;
 
 app.listen(PORT,() => console.log(`App listen now ${PORT}!!`));
