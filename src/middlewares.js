@@ -21,7 +21,7 @@ export const publicOnlyMiddleware = (req,res,next) =>{
     req.flash("error","권한이 없습니다!");
     return res.redirect("/")
 }
-
+ 
 //3M
 export const avatarUpload = multer({dest:"upload/avatars/", limits:{fileSize:3000000}})
 
