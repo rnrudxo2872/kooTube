@@ -30,6 +30,8 @@ export const postUserEdit = async (req, res) => {
     
     const prevUser = req.session.user;
 
+    console.log(prevUser.email !== email, prevUser.username !== username);
+
     //변경되는 유저 데이터 상태들.
     let changeState = [];
     prevUser.email !== email ? changeState.push({email}):false;
@@ -44,7 +46,7 @@ export const postUserEdit = async (req, res) => {
 
     //new:true 옵션으로 업데이트한 데이터 반환
     const updateUser = await User.findByIdAndUpdate(_id, {
-        avatarURL:file ? file.path : avatarURL,
+        avatarURL:file ? file.location : avatarURL,
         email,
         username,
         name,

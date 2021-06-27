@@ -20,10 +20,10 @@ header
                         if loggedInUser.avatarURL === ""
                             span 🙄
                         else
-                            if loggedInUser.socialOnly
+                            if loggedInUser.avatarURL && loggedInUser.avatarURL.includes("github")
                                 img.header__avatar(src=`${loggedInUser.avatarURL}`, alt="My Profile")
                             else
-                                img.header__avatar(src=`/${loggedInUser.avatarURL}`, alt="My Profile")
+                                img.header__avatar(src=`${loggedInUser.avatarURL}`, alt="My Profile")
             else
                 li
                     a(href="/join").header__btn 회원가입 
