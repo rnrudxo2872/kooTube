@@ -1,0 +1,81 @@
+#videoContainer{
+    width: 100%;
+    position: relative;
+    video{
+        width: 100%;
+    }
+    .videoControls{
+        position: absolute;
+        opacity: 0;
+        transition: opacity 0.5s ease-in-out;
+        &.showing{
+            opacity: 1;
+        }
+        border-radius: 10px;
+        background-color: rgba($color: #000000, $alpha: 0.6);
+        bottom: 10px;
+        width: 95%;
+        left: 0;
+        right: 0;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 1fr 4fr 1.5fr auto;
+        gap: 10px;
+        padding: 10px;
+        box-sizing: border-box;
+
+        .videoControls__play{
+            display: flex;
+            align-items: center;
+            .videoControls__playBtn{
+                margin: 0 10px;
+            }
+            .videoControls__time{
+                font-size: 14px;
+            }
+        }
+
+        .videoControls_timeline{
+            align-items: center;
+            justify-content: center;
+            border: none;
+            -webkit-appearance: none;
+            background: #a8a0a0;
+            outline: none;
+            opacity: 0.7;
+            -webkit-transition: .2s;
+            transition: opacity .2s;
+            &::-webkit-slider-thumb {
+                -webkit-appearance: none;
+                width: 18px;
+                height: 18px;
+                background: #04AA6D;
+                cursor: pointer;
+              }
+        }
+        
+        .videoControls__volume{
+            display: flex;
+            align-items: center;
+            span{
+                margin-left: 10px;
+                i{
+                    font-size: 20px;
+                }
+            }
+            #volume{
+                -webkit-appearance: none;
+                border: none;
+                background: #a8a0a0;
+                &::-webkit-slider-thumb {
+                    -webkit-appearance: none;
+                    width: 18px;
+                    height: 18px;
+                    background: #04AA6D;
+                    cursor: pointer;
+                  }
+            }
+        }
+
+    }
+}
